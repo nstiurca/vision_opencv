@@ -4,7 +4,7 @@ import unittest
 
 import sensor_msgs.msg
 
-from cv_bridge import CvBridge, CvBridgeError
+from cv3_bridge import CvBridge, CvBridgeError
 
 class TestEnumerants(unittest.TestCase):
 

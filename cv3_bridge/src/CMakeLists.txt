@@ -1,5 +1,5 @@
 # add library
-add_library(${PROJECT_NAME} cv_bridge.cpp)
+add_library(${PROJECT_NAME} cv3_bridge.cpp)
 add_dependencies(${PROJECT_NAME} sensor_msgs_gencpp)
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBRARIES} ${catkin_LIBRARIES})
 
@@ -27,7 +27,7 @@ if(NOT PYTHON_NUMPY_INCLUDE_DIR)
 
 include_directories(SYSTEM ${PYTHON_INCLUDE_PATH}
                            ${Boost_INCLUDE_DIRS}
-                           ${PYTHON_NUMPY_INCLUDE_DIR} # cv_bridge module uses NumPy functions
+                           ${PYTHON_NUMPY_INCLUDE_DIR} # cv3_bridge module uses NumPy functions
 )
 
 if (PYTHON_VERSION_MAJOR VERSION_EQUAL 3)

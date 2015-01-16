@@ -32,15 +32,15 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *********************************************************************/
 
-#ifndef CV_BRIDGE_CV_BRIDGE_H
-#define CV_BRIDGE_CV_BRIDGE_H
+#ifndef CV3_BRIDGE_CV3_BRIDGE_H
+#define CV3_BRIDGE_CV3_BRIDGE_H
 
 #include <sensor_msgs/Image.h>
 #include <ros/static_assert.h>
 #include <opencv2/core/core.hpp>
 #include <stdexcept>
 
-namespace cv_bridge {
+namespace cv3_bridge {
 
 class Exception : public std::runtime_error
 {
@@ -212,7 +212,7 @@ CvImagePtr cvtColor(const CvImageConstPtr& source,
  */
 int getCvType(const std::string& encoding);
 
-} // namespace cv_bridge
+} // namespace cv3_bridge
 
 
 
@@ -229,10 +229,10 @@ namespace ros {
 
 namespace message_traits {
 
-template<> struct MD5Sum<cv_bridge::CvImage>
+template<> struct MD5Sum<cv3_bridge::CvImage>
 {
   static const char* value() { return MD5Sum<sensor_msgs::Image>::value(); }
-  static const char* value(const cv_bridge::CvImage&) { return value(); }
+  static const char* value(const cv3_bridge::CvImage&) { return value(); }
 
   static const uint64_t static_value1 = MD5Sum<sensor_msgs::Image>::static_value1;
   static const uint64_t static_value2 = MD5Sum<sensor_msgs::Image>::static_value2;
@@ -242,30 +242,30 @@ template<> struct MD5Sum<cv_bridge::CvImage>
   ROS_STATIC_ASSERT(MD5Sum<sensor_msgs::Image>::static_value2 == 0xf447d0fcd9c64743ULL);
 };
 
-template<> struct DataType<cv_bridge::CvImage>
+template<> struct DataType<cv3_bridge::CvImage>
 {
   static const char* value() { return DataType<sensor_msgs::Image>::value(); }
-  static const char* value(const cv_bridge::CvImage&) { return value(); }
+  static const char* value(const cv3_bridge::CvImage&) { return value(); }
 };
 
-template<> struct Definition<cv_bridge::CvImage>
+template<> struct Definition<cv3_bridge::CvImage>
 {
   static const char* value() { return Definition<sensor_msgs::Image>::value(); }
-  static const char* value(const cv_bridge::CvImage&) { return value(); }
+  static const char* value(const cv3_bridge::CvImage&) { return value(); }
 };
 
-template<> struct HasHeader<cv_bridge::CvImage> : TrueType {};
+template<> struct HasHeader<cv3_bridge::CvImage> : TrueType {};
 
 } // namespace ros::message_traits
 
 namespace serialization {
 
-template<> struct Serializer<cv_bridge::CvImage>
+template<> struct Serializer<cv3_bridge::CvImage>
 {
   /// @todo Still ignoring endianness...
   
   template<typename Stream>
-  inline static void write(Stream& stream, const cv_bridge::CvImage& m)
+  inline static void write(Stream& stream, const cv3_bridge::CvImage& m)
   {
     stream.next(m.header);
     stream.next((uint32_t)m.image.rows); // height
@@ -281,7 +281,7 @@ template<> struct Serializer<cv_bridge::CvImage>
   }
 
   template<typename Stream>
-  inline static void read(Stream& stream, cv_bridge::CvImage& m)
+  inline static void read(Stream& stream, cv3_bridge::CvImage& m)
   {
     stream.next(m.header);
     uint32_t height, width;
@@ -293,13 +293,13 @@ template<> struct Serializer<cv_bridge::CvImage>
     uint32_t step, data_size;
     stream.next(step);
     stream.next(data_size);
-    int type = cv_bridge::getCvType(m.encoding);
+    int type = cv3_bridge::getCvType(m.encoding);
     // Construct matrix pointing to the stream data, then copy it to m.image
     cv::Mat tmp((int)height, (int)width, type, stream.advance(data_size), (size_t)step);
     tmp.copyTo(m.image);
   }
 
-  inline static uint32_t serializedLength(const cv_bridge::CvImage& m)
+  inline static uint32_t serializedLength(const cv3_bridge::CvImage& m)
   {
     size_t data_size = m.image.step*m.image.rows;
     return serializationLength(m.header) + serializationLength(m.encoding) + 17 + data_size;
@@ -310,10 +310,10 @@ template<> struct Serializer<cv_bridge::CvImage>
 
 namespace message_operations {
 
-template<> struct Printer<cv_bridge::CvImage>
+template<> struct Printer<cv3_bridge::CvImage>
 {
   template<typename Stream>
-  static void stream(Stream& s, const std::string& indent, const cv_bridge::CvImage& m)
+  static void stream(Stream& s, const std::string& indent, const cv3_bridge::CvImage& m)
   {
     /// @todo Replicate printing for sensor_msgs::Image
   }
@@ -323,7 +323,7 @@ template<> struct Printer<cv_bridge::CvImage>
 
 } // namespace ros
 
-namespace cv_bridge {
+namespace cv3_bridge {
 
 inline std::ostream& operator<<(std::ostream& s, const CvImage& m)
 {
@@ -331,7 +331,7 @@ inline std::ostream& operator<<(std::ostream& s, const CvImage& m)
   return s;
 }
 
-} // namespace cv_bridge
+} // namespace cv3_bridge
 
 /// @endcond
 

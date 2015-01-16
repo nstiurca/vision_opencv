@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(cv_bridge)
+project(cv3_bridge)
 
 find_package(catkin REQUIRED COMPONENTS rosconsole sensor_msgs)
 
@@ -8,7 +8,7 @@ find_package(Boost REQUIRED python)
 else()
 find_package(Boost REQUIRED)
 endif()
-find_package(OpenCV REQUIRED)
+find_package(OpenCV 3 REQUIRED)
 if (OpenCV_VERSION VERSION_EQUAL "3")
   add_definitions("-DOPENCV3=1")
 endif()

@@ -1,6 +1,10 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Changelog for package cv_bridge
+Changelog for package cv3_bridge
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1.12.0 (2015-01-16)
+-------------------
+* fork cv_bridge into cv3_bridge, compiled specifically for OpenCV 3. No actual code changes yet, just repackaged
 
 1.11.7 (2014-12-14)
 -------------------

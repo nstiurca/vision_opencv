@@ -40,7 +40,7 @@ import warnings
 
 class CvBridgeError(TypeError):
     """
-    This is the error raised by :class:`cv_bridge.CvBridge` methods when they fail.
+    This is the error raised by :class:`cv3_bridge.CvBridge` methods when they fail.
     """
     pass
 
@@ -53,7 +53,7 @@ class CvBridge:
 
            >>> import cv2
            >>> import numpy as np
-           >>> from cv_bridge import CvBridge
+           >>> from cv3_bridge import CvBridge
            >>> br = CvBridge()
            >>> dtype, n_channels = br.encoding_as_cvtype2('8UC3')
            >>> im = np.ndarray(shape=(480, 640, n_channels), dtype=dtype)
@@ -86,7 +86,7 @@ class CvBridge:
         return self.numpy_type_to_cvtype[vals[1]], eval(vals[2])
 
     def encoding_to_cvtype2(self, encoding):
-        from cv_bridge.boost.cv_bridge_boost import getCvType
+        from cv3_bridge.boost.cv3_bridge_boost import getCvType
 
         try:
             return getCvType(encoding)
@@ -112,7 +112,7 @@ class CvBridge:
         If desired_encoding is ``"passthrough"``, then the returned image has the same format as img_msg.
         Otherwise desired_encoding must be one of the standard image encodings
 
-        This function returns an OpenCV :ctype:`cv::Mat` message on success, or raises :exc:`cv_bridge.CvBridgeError` on failure.
+        This function returns an OpenCV :ctype:`cv::Mat` message on success, or raises :exc:`cv3_bridge.CvBridgeError` on failure.
 
         If the image only has one channel, the shape has size 2 (width and height)
         """
@@ -129,7 +129,7 @@ class CvBridge:
         if desired_encoding == "passthrough":
             return im
 
-        from cv_bridge.boost.cv_bridge_boost import cvtColor2
+        from cv3_bridge.boost.cv3_bridge_boost import cvtColor2
 
         try:
             res = cvtColor2(im, img_msg.encoding, desired_encoding)
@@ -154,7 +154,7 @@ class CvBridge:
         If encoding is ``"passthrough"``, then the message has the same encoding as the image's OpenCV type.
         Otherwise desired_encoding must be one of the standard image encodings
 
-        This function returns a sensor_msgs::Image message on success, or raises :exc:`cv_bridge.CvBridgeError` on failure.
+        This function returns a sensor_msgs::Image message on success, or raises :exc:`cv3_bridge.CvBridgeError` on failure.
         """
         import cv2
         import numpy as np

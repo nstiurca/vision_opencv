@@ -42,20 +42,20 @@ cvtColor2Wrap(bp::object obj_in, const std::string & encoding_in, const std::str
   cv::Mat mat_in;
   convert_to_CvMat2(obj_in.ptr(), mat_in);
 
-  // Call cv_bridge for color conversion
-  cv_bridge::CvImagePtr cv_image(new cv_bridge::CvImage(std_msgs::Header(), encoding_in, mat_in));
+  // Call cv3_bridge for color conversion
+  cv3_bridge::CvImagePtr cv_image(new cv3_bridge::CvImage(std_msgs::Header(), encoding_in, mat_in));
 
-  cv::Mat mat = cv_bridge::cvtColor(cv_image, encoding_out)->image;
+  cv::Mat mat = cv3_bridge::cvtColor(cv_image, encoding_out)->image;
 
   return bp::object(boost::python::handle<>(pyopencv_from(mat)));
 }
 
-BOOST_PYTHON_MODULE(cv_bridge_boost)
+BOOST_PYTHON_MODULE(cv3_bridge_boost)
 {
   do_numpy_import();
   mod_opencv = PyImport_ImportModule("cv2");
 
   // Wrap the function to get encodings as OpenCV types
-  boost::python::def("getCvType", cv_bridge::getCvType);
+  boost::python::def("getCvType", cv3_bridge::getCvType);
   boost::python::def("cvtColor2", cvtColor2Wrap);
 }

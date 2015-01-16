@@ -2,12 +2,12 @@
 \mainpage
 \htmlinclude manifest.html
 
-\b cv_bridge contains classes for easily converting between ROS
-sensor_msgs/Image messages and OpenCV images.
+\b cv3_bridge contains classes for easily converting between ROS
+sensor_msgs/Image messages and OpenCV 3 images.
 
 \section codeapi Code API
 
- - cv_bridge::CvImage
+ - cv3_bridge::CvImage
  - toCvCopy()
  - toCvShare()
 

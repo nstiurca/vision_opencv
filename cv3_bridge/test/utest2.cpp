@@ -38,7 +38,7 @@
 
 #include "opencv2/core/core.hpp"  
 
-#include "cv_bridge/cv_bridge.h"
+#include "cv3_bridge/cv3_bridge.h"
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/image_encodings.h>
 
@@ -74,12 +74,12 @@ TEST(OpencvTests, testCase_encode_decode)
   for(size_t i=0; i<encodings.size(); ++i) {
     std::string src_encoding = encodings[i];
     bool is_src_color_format = isColor(src_encoding) || isMono(src_encoding) || (src_encoding == sensor_msgs::image_encodings::YUV422);
-    cv::Mat image_original(cv::Size(400, 400), cv_bridge::getCvType(src_encoding));
+    cv::Mat image_original(cv::Size(400, 400), cv3_bridge::getCvType(src_encoding));
     cv::RNG r(77);
     r.fill(image_original, cv::RNG::UNIFORM, 0, 255);
 
     sensor_msgs::Image image_message;
-    cv_bridge::CvImage image_bridge(std_msgs::Header(), src_encoding, image_original);
+    cv3_bridge::CvImage image_bridge(std_msgs::Header(), src_encoding, image_original);
 
     // Convert to a sensor_msgs::Image
     sensor_msgs::ImagePtr image_msg = image_bridge.toImageMsg();
@@ -89,44 +89,44 @@ TEST(OpencvTests, testCase_encode_decode)
       bool is_dst_color_format = isColor(dst_encoding) || isMono(dst_encoding) || (dst_encoding == sensor_msgs::image_encodings::YUV422);
       bool is_num_channels_the_same = (numChannels(src_encoding) == numChannels(dst_encoding));
 
-      cv_bridge::CvImageConstPtr cv_image;
+      cv3_bridge::CvImageConstPtr cv_image;
       cv::Mat image_back;
       // If the first type does not contain any color information
       if (!is_src_color_format) {
         // Converting from a non color type to a color type does no make sense
         if (is_dst_color_format) {
-          EXPECT_THROW(cv_bridge::toCvShare(image_msg, dst_encoding), cv_bridge::Exception);
+          EXPECT_THROW(cv3_bridge::toCvShare(image_msg, dst_encoding), cv3_bridge::Exception);
           continue;
         }
         // We can only convert non-color types with the same number of channels
         if (!is_num_channels_the_same) {
-          EXPECT_THROW(cv_bridge::toCvShare(image_msg, dst_encoding), cv_bridge::Exception);
+          EXPECT_THROW(cv3_bridge::toCvShare(image_msg, dst_encoding), cv3_bridge::Exception);
           continue;
         }
-        cv_image = cv_bridge::toCvShare(image_msg, dst_encoding);
+        cv_image = cv3_bridge::toCvShare(image_msg, dst_encoding);
       } else {
         // If we are converting to a non-color, you cannot convert to a different number of channels
         if (!is_dst_color_format) {
           if (!is_num_channels_the_same) {
-            EXPECT_THROW(cv_bridge::toCvShare(image_msg, dst_encoding), cv_bridge::Exception);
+            EXPECT_THROW(cv3_bridge::toCvShare(image_msg, dst_encoding), cv3_bridge::Exception);
             continue;
           }
-          cv_image = cv_bridge::toCvShare(image_msg, dst_encoding);
+          cv_image = cv3_bridge::toCvShare(image_msg, dst_encoding);
           // We cannot convert from non-color to color
-          EXPECT_THROW(cvtColor(cv_image, src_encoding)->image, cv_bridge::Exception);
+          EXPECT_THROW(cvtColor(cv_image, src_encoding)->image, cv3_bridge::Exception);
           continue;
         }
         // We do not support conversion to YUV422 for now, except from YUV422
         if ((dst_encoding == YUV422) && (src_encoding != YUV422)) {
-          EXPECT_THROW(cv_bridge::toCvShare(image_msg, dst_encoding), cv_bridge::Exception);
+          EXPECT_THROW(cv3_bridge::toCvShare(image_msg, dst_encoding), cv3_bridge::Exception);
           continue;
         }
 
-        cv_image = cv_bridge::toCvShare(image_msg, dst_encoding);
+        cv_image = cv3_bridge::toCvShare(image_msg, dst_encoding);
 
         // We do not support conversion to YUV422 for now, except from YUV422
         if ((src_encoding == YUV422) && (dst_encoding != YUV422)) {
-          EXPECT_THROW(cvtColor(cv_image, src_encoding)->image, cv_bridge::Exception);
+          EXPECT_THROW(cvtColor(cv_image, src_encoding)->image, cv3_bridge::Exception);
           continue;
         }
       }

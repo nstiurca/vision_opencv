@@ -40,11 +40,11 @@
 
 #include <sensor_msgs/image_encodings.h>
 
-#include <cv_bridge/cv_bridge.h>
+#include <cv3_bridge/cv3_bridge.h>
 
 namespace enc = sensor_msgs::image_encodings;
 
-namespace cv_bridge {
+namespace cv3_bridge {
 
 int getCvType(const std::string& encoding)
 {
@@ -442,4 +442,4 @@ CvImagePtr cvtColor(const CvImageConstPtr& source,
   return toCvCopyImpl(source->image, source->header, source->encoding, encoding);
 }
 
-} //namespace cv_bridge
+} //namespace cv3_bridge
