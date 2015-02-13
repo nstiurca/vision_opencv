@@ -98,6 +98,33 @@ int getCvType(const std::string& encoding)
   throw Exception("Unrecognized image encoding [" + encoding + "]");
 }
 
+const std::string& getEncodingOfCvType(int type)
+{
+#define GET_ENCODING(type) \
+  case CV_##type: return enc::TYPE_##type
+
+#define GET_CHANNEL_ENCODING(t) \
+    GET_ENCODING(t##C1); \
+    GET_ENCODING(t##C2); \
+    GET_ENCODING(t##C3); \
+    GET_ENCODING(t##C4)
+
+  switch(type) {
+  GET_CHANNEL_ENCODING(8U);
+  GET_CHANNEL_ENCODING(8S);
+  GET_CHANNEL_ENCODING(16U);
+  GET_CHANNEL_ENCODING(16S);
+  GET_CHANNEL_ENCODING(32S);
+  GET_CHANNEL_ENCODING(32F);
+  GET_CHANNEL_ENCODING(64F);
+  }
+
+#undef GET_CHANNEL_ENCODING
+#undef GET_ENCODING
+
+  throw Exception("Unrecognized cv::Mat type");
+}
+
 /// @cond DOXYGEN_IGNORE
 
 enum Format { INVALID = -1, GRAY = 0, RGB, BGR, RGBA, BGRA, YUV422, BAYER_RGGB, BAYER_BGGR, BAYER_GBRG, BAYER_GRBG};

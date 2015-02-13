@@ -54,6 +54,13 @@ typedef boost::shared_ptr<CvImage> CvImagePtr;
 typedef boost::shared_ptr<CvImage const> CvImageConstPtr;
 
 /**
+ * \brief Get the encoding corresponding to the OpenCV type enum.
+ *
+ * For example, CV_8UC3 -> "CV_8UC3".
+ */
+const std::string& getEncodingOfCvType(int type);
+
+/**
  * \brief Image message class that is interoperable with sensor_msgs/Image but uses a
  * more convenient cv::Mat representation for the image data.
  */
@@ -78,6 +85,18 @@ public:
   {
   }
   
+  /**
+   * \brief Constructor.
+   */
+  CvImage(const std_msgs::Header& header, const cv::Mat &image, const std::string& encoding = "")
+    : header(header)
+    , image(image)
+    , encoding(encoding)
+  {
+    if(encoding.empty() && !image.empty())
+      this->encoding = getEncodingOfCvType(image.type());
+  }
+
   /**
    * \brief Convert this message to a ROS sensor_msgs::Image message.
    *
